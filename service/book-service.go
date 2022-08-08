@@ -14,7 +14,7 @@ type BookService interface {
 	Insert(b dto.BookCreateDTO) entity.Book
 	Update(b dto.BookUpdateDTO) entity.Book
 	Delete(b entity.Book)
-	All() []entity.Book
+	All(dto.PaginationDTO) dto.PaginationDTO
 	FindByID(bookID uint64) entity.Book
 	IsAllowedToEdit(userID string, bookID uint64) bool
 }
@@ -53,8 +53,8 @@ func (service *bookService) Delete(b entity.Book) {
 	service.bookRepository.DeleteBook(b)
 }
 
-func (service *bookService) All() []entity.Book {
-	return service.bookRepository.AllBook()
+func (service *bookService) All(p dto.PaginationDTO) dto.PaginationDTO {
+	return service.bookRepository.AllBook(p)
 }
 
 func (service *bookService) FindByID(bookID uint64) entity.Book {

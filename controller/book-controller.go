@@ -14,11 +14,11 @@ import (
 )
 
 type BookController interface {
-	All(context *gin.Context)
-	FindByID(context *gin.Context)
-	Insert(context *gin.Context)
-	Update(context *gin.Context)
-	Delete(context *gin.Context)
+	GetAllBooks(context *gin.Context)
+	GetBooksById(context *gin.Context)
+	CreateBooks(context *gin.Context)
+	UpdateBooks(context *gin.Context)
+	DeleteBooks(context *gin.Context)
 }
 
 type bookController struct {
@@ -34,13 +34,18 @@ func NewBookController(bookServ service.BookService, jwtServ service.JWTService)
 	}
 }
 
-func (c *bookController) All(context *gin.Context) {
-	var books []entity.Book = c.bookService.All()
+func (c *bookController) GetAllBooks(context *gin.Context) {
+	// Pagination
+	pagination := helpers.CreatePagination(context)
+	books := c.bookService.All(*pagination)
 	res := helpers.BuildResponse(true, "OK", books)
 	context.JSON(http.StatusOK, res)
+	// var books []entity.Book = c.bookService.All()
+	// res := helpers.BuildResponse(true, "OK", books)
+	// context.JSON(http.StatusOK, res)
 }
 
-func (c *bookController) FindByID(context *gin.Context) {
+func (c *bookController) GetBooksById(context *gin.Context) {
 	id, err := strconv.ParseUint(context.Param("id"), 0, 0)
 	if err != nil {
 		res := helpers.BuildErrorResponse("No param id was found", err.Error(), helpers.EmptyObj{})
@@ -58,7 +63,7 @@ func (c *bookController) FindByID(context *gin.Context) {
 	}
 }
 
-func (c *bookController) Insert(context *gin.Context) {
+func (c *bookController) CreateBooks(context *gin.Context) {
 	var bookCreateDTO dto.BookCreateDTO
 	errDTO := context.ShouldBind(&bookCreateDTO)
 	if errDTO != nil {
@@ -77,7 +82,7 @@ func (c *bookController) Insert(context *gin.Context) {
 	}
 }
 
-func (c *bookController) Update(context *gin.Context) {
+func (c *bookController) UpdateBooks(context *gin.Context) {
 	var bookUpdateDTO dto.BookUpdateDTO
 	errDTO := context.ShouldBind(&bookUpdateDTO)
 	if errDTO != nil {
@@ -107,7 +112,7 @@ func (c *bookController) Update(context *gin.Context) {
 	}
 }
 
-func (c *bookController) Delete(context *gin.Context) {
+func (c *bookController) DeleteBooks(context *gin.Context) {
 	var book entity.Book
 	id, err := strconv.ParseUint(context.Param("id"), 0, 0)
 	if err != nil {

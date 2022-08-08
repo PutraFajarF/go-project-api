@@ -1,6 +1,9 @@
 package repository
 
 import (
+	"math"
+
+	"github.com/PutraFajarF/go-project-api/dto"
 	"github.com/PutraFajarF/go-project-api/entity"
 	"github.com/jinzhu/gorm"
 )
@@ -9,7 +12,7 @@ type BookRepository interface {
 	InsertBook(b entity.Book) entity.Book
 	UpdateBook(b entity.Book) entity.Book
 	DeleteBook(b entity.Book)
-	AllBook() []entity.Book
+	AllBook(dto.PaginationDTO) dto.PaginationDTO
 	FindBookByID(bookID uint64) entity.Book
 }
 
@@ -46,8 +49,45 @@ func (db *bookConnection) FindBookByID(bookID uint64) entity.Book {
 	return book
 }
 
-func (db *bookConnection) AllBook() []entity.Book {
+func (db *bookConnection) AllBook(p dto.PaginationDTO) dto.PaginationDTO {
+	var pag dto.PaginationDTO
+	// pagination init attribute
+	totalRow, totalPages, fromRow, toRow := 0, 0, 0, 0
+	offset := p.Page * p.Limit
+
 	var books []entity.Book
-	db.connection.Preload("User").Find(&books)
-	return books
+	var book entity.Book
+	err := db.connection.Limit(p.Limit).Offset(offset).Preload("User").Find(&books).Error
+	if err != nil {
+		return pag
+	}
+	p.Rows = books
+
+	countTotalRows := int64(totalRow)
+	errs := db.connection.Model(book).Count(&countTotalRows).Error
+	if errs != nil {
+		return p
+	}
+
+	p.TotalRows = countTotalRows
+
+	totalPages = int(math.Ceil(float64(countTotalRows)/float64(p.Limit))) - 1
+
+	if p.Page == 0 {
+		fromRow = 1
+		toRow = p.Limit
+	} else {
+		if p.Page <= totalPages {
+			fromRow = p.Page*p.Limit + 1
+			toRow = (p.Page + 1) * p.Limit
+		}
+	}
+
+	if toRow > totalRow {
+		toRow = totalRow
+	}
+
+	p.FromRow = fromRow
+	p.ToRow = toRow
+	return p
 }
