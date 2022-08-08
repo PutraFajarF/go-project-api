@@ -203,11 +203,11 @@ Response success (Status: 200)
 
 <b>=============================================</b>
 ## All books (based on user who logged in)
-Only shows products by user who logged in
+Only shows books by user who logged in
 
-<b>GET</b>
+<b>GET with Default Endpoint</b>
 ```
-https://go-buku.herokuapp.com/api/product
+https://go-buku.herokuapp.com/api/books
 ```
 
 
@@ -294,12 +294,113 @@ Response success (Status: 200)
 }
 ```
 
-## Create product
-Create a product with owner is the user who logged in
+<b>GET with Pagination End Point</b>
+```
+https://go-buku.herokuapp.com/api/books?page=0&limit=6
+```
+
+
+Headers
+```
+Authorization: yourToken
+```
+
+Response success (Status: 200)
+```
+{
+    "status": true,
+    "message": "OK",
+    "errors": null,
+    "data": {
+        "limit": 6,
+        "page": 0,
+        "total_rows": 15,
+        "from_row": 1,
+        "to_row": 0,
+        "rows": [
+            {
+                "id": 1,
+                "title": "Rich Dad Poor Dad New Version",
+                "description": "Good book for investing",
+                "author": "Robert Kiyokasi",
+                "price": 145000,
+                "user": {
+                    "id": 1,
+                    "name": "Putra Fajar Febrianto",
+                    "email": "putra@gmail.com"
+                }
+            },
+            {
+                "id": 2,
+                "title": "Pemrograman JavaScript untuk pemula sampai mahir",
+                "description": "Buku untuk mempelajari bahasa pemrograman JavaScript",
+                "author": "Eko Kurniawan Khannedy",
+                "price": 95000,
+                "user": {
+                    "id": 1,
+                    "name": "Putra Fajar Febrianto",
+                    "email": "putra@gmail.com"
+                }
+            },
+            {
+                "id": 3,
+                "title": "The Subtle Art Of Not Giving a Fuck",
+                "description": "Buku tentang pengembangan diri",
+                "author": "Mark Manson",
+                "price": 80000,
+                "user": {
+                    "id": 1,
+                    "name": "Putra Fajar Febrianto",
+                    "email": "putra@gmail.com"
+                }
+            },
+            {
+                "id": 4,
+                "title": "Atomic Habit",
+                "description": "Self development book that very recommended",
+                "author": "James Clear",
+                "price": 135000,
+                "user": {
+                    "id": 1,
+                    "name": "Putra Fajar Febrianto",
+                    "email": "putra@gmail.com"
+                }
+            },
+            {
+                "id": 5,
+                "title": "Grit",
+                "description": "Buku tentang motivasi diri",
+                "author": "Angela Duckworth",
+                "price": 220000,
+                "user": {
+                    "id": 1,
+                    "name": "Putra Fajar Febrianto",
+                    "email": "putra@gmail.com"
+                }
+            },
+            {
+                "id": 6,
+                "title": "Eat That Frog",
+                "description": "Buku tentang self development",
+                "author": "Brian Tracy",
+                "price": 125000,
+                "user": {
+                    "id": 2,
+                    "name": "Bambang Hartono",
+                    "email": "bambang@gmail.com"
+                }
+            }
+        ]
+    }
+}
+```
+
+## Create books
+Create a books with owner is the user who logged in
 
 <b>POST</b>
 ```
-https://go-buku.herokuapp.com/api/product
+https://go-buku.herokuapp.com/api/books
 ```
 
 Headers
@@ -338,12 +439,12 @@ Response success (Status: 201)
 }
 ```
 
-## Find one product by id
-Find product by id
+## Find one books by id
+Find books by id
 
 <b>GET</b>
 ```
-https://go-buku.herokuapp.com/api/product/{id}
+https://go-buku.herokuapp.com/api/books/{id}
 ```
 
 Headers
@@ -373,12 +474,12 @@ Response success (Status: 200)
 }
 ```
 
-## Update product
-<b>You can only update your own product If you are trying to update someone else product, it will return error. </b>  
+## Update books
+<b>You can only update your own books If you are trying to update someone else books, it will return error. </b>  
 
 <b>PUT</b>
 ```
-https://go-buku.herokuapp.com/api/product/{id}
+https://go-buku.herokuapp.com/api/books/{id}
 ```
 
 Request body
@@ -414,12 +515,12 @@ Response success (Status: 200)
 ```
 
 
-## Delete product
-You can only delete your own product
+## Delete books
+You can only delete your own books
 
 <b>DELETE</b>
 ```
-https://go-buku.herokuapp.com/api/product/{id}
+https://go-buku.herokuapp.com/api/books/{id}
 ```
 
 Response success (Status: 200)
