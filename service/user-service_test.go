@@ -1,26 +1,72 @@
 package service
 
 import (
-	"fmt"
+	"reflect"
 	"testing"
 
-	"github.com/PutraFajarF/go-project-api/config"
 	"github.com/PutraFajarF/go-project-api/dto"
+	"github.com/PutraFajarF/go-project-api/entity"
 	"github.com/PutraFajarF/go-project-api/repository"
-	_ "github.com/jinzhu/gorm/dialects/postgres"
 )
 
-func TestUserService_Update(t *testing.T) {
-	dbPost := config.SetupDatabaseConnection()
-	config.CloseDatabaseConnection(dbPost)
-	repositoryUser := repository.NewUserRepository(dbPost)
-	services := NewUserService(repositoryUser)
-	users := dto.UserUpdateDTO{
-		ID:       1,
-		Name:     "Febri",
-		Email:    "febri@gmail.com",
-		Password: "Febriss",
+func TestNewUserService(t *testing.T) {
+	type args struct {
+		userRepo repository.UserRepository
 	}
-	userServices := services.Update(users)
-	fmt.Println(userServices)
+	tests := []struct {
+		name string
+		args args
+		want UserService
+	}{
+		// TODO: Add test cases.
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if got := NewUserService(tt.args.userRepo); !reflect.DeepEqual(got, tt.want) {
+				t.Errorf("NewUserService() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}
+
+func Test_userService_Update(t *testing.T) {
+	type args struct {
+		user dto.UserUpdateDTO
+	}
+	tests := []struct {
+		name    string
+		service *userService
+		args    args
+		want    entity.User
+	}{
+		// TODO: Add test cases.
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if got := tt.service.Update(tt.args.user); !reflect.DeepEqual(got, tt.want) {
+				t.Errorf("userService.Update() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}
+
+func Test_userService_Profile(t *testing.T) {
+	type args struct {
+		userID string
+	}
+	tests := []struct {
+		name    string
+		service *userService
+		args    args
+		want    entity.User
+	}{
+		// TODO: Add test cases.
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if got := tt.service.Profile(tt.args.userID); !reflect.DeepEqual(got, tt.want) {
+				t.Errorf("userService.Profile() = %v, want %v", got, tt.want)
+			}
+		})
+	}
 }

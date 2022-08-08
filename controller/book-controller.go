@@ -35,9 +35,14 @@ func NewBookController(bookServ service.BookService, jwtServ service.JWTService)
 }
 
 func (c *bookController) All(context *gin.Context) {
-	var books []entity.Book = c.bookService.All()
+	// Pagination
+	pagination := helpers.CreatePagination(context)
+	books := c.bookService.All(*pagination)
 	res := helpers.BuildResponse(true, "OK", books)
 	context.JSON(http.StatusOK, res)
+	// var books []entity.Book = c.bookService.All()
+	// res := helpers.BuildResponse(true, "OK", books)
+	// context.JSON(http.StatusOK, res)
 }
 
 func (c *bookController) FindByID(context *gin.Context) {
