@@ -5,10 +5,10 @@ https://go-buku.herokuapp.com
 ```
 ## Project Overview =
 - CRUD API Books using Gin, Gorm and PostgreSQL
-- This Project has 3 domains :
-    a. books => for Books Data 
-    b. user => for Get Data User and Update/Edit Data User
-    c. auth => for Login and Register User
+- This Project has 3 domain :
+    - A. books => for Books Data 
+    - B. user => for Get Data User and Update/Edit Data User
+    - C. auth => for Login and Register User
 - Clean Design Architecture
 - JWT Token
 - Hash and Salt Password
