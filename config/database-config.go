@@ -13,7 +13,8 @@ var db *gorm.DB
 
 // SetupDatabaseConnection is creating a new connection to our database
 func SetupDatabaseConnection() *gorm.DB {
-	// If use localhost uncomment this section
+	// If use localhost uncomment this section and change sslmode from require to disable
+
 	// errEnv := godotenv.Load()
 	// if errEnv != nil {
 	// 	panic("Failed to load env file")
