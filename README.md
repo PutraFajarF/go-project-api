@@ -39,7 +39,7 @@ CREATE TABLE "books" (
   "price" INT NOT NULL
 );
 
-INSERT INTO "books" (title, description, author, price, user_id)
+INSERT INTO "books" (title, description, author, user_id, price)
 VALUES
 	('Rich Dad Poor Dad','Good book for investing','Robert Kiyosaki',1, 120000),
 	('Pemrograman JavaScript untuk pemula sampai mahir','Buku untuk mempelajari bahasa pemrograman JavaScript','Eko Kurniawan Khannedy',1, 95000),
